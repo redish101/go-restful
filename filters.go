@@ -19,7 +19,7 @@ func Recover() Filter {
 					log.Printf("[go-restful] panic: %v", v)
 					w.Header().Set("Content-Type", MIME_JSON+"; charset=utf-8")
 					w.WriteHeader(http.StatusInternalServerError)
-					_, _ = w.Write([]byte(`{"error":"internal error","code":500}`))
+					_, _ = w.Write([]byte(`{"error":"internal error"}`))
 				}
 			}()
 			next.ServeHTTP(w, r)
@@ -82,7 +82,7 @@ func RequireJSON() Filter {
 				if ct != "" && !strings.HasPrefix(ct, MIME_JSON) {
 					w.Header().Set("Content-Type", MIME_JSON+"; charset=utf-8")
 					w.WriteHeader(http.StatusUnsupportedMediaType)
-					_, _ = w.Write([]byte(`{"error":"expected application/json","code":415}`))
+					_, _ = w.Write([]byte(`{"error":"expected application/json"}`))
 					return
 				}
 			}
