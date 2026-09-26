@@ -8,7 +8,6 @@
 go get github.com/redish101/go-restful
 ```
 
----
 
 ## 快速开始
 
@@ -48,24 +47,6 @@ func getUser(req *restful.Request, resp *restful.Response) {
     _ = resp.WriteEntity(User{ID: req.PathParameter("id"), Name: "Alice"})
 }
 ```
-
----
-
-## 核心概念
-
-```
-Container                     ← 顶层容器，持有 http.ServeMux、全局过滤器与默认 MIME
-  └── WebService[]            ← 一组共享根路径的路由（如 /users）
-        └── Route[]           ← 单个「方法 + 路径 + handler」
-              └── Filter[]    ← 路由级过滤器
-```
-
-- **Container**：一个 `http.Handler`，负责把路由注册到 `ServeMux`，串接过滤器链，提供默认 MIME。
-- **WebService**：按资源划分路由，共享 `Path` 前缀与默认 MIME。
-- **Route**：单条路由，可挂路由级过滤器、声明 `Produces`/`Consumes`、附加文档元数据。
-- **Filter**：标准库风格中间件，三层可叠加，执行顺序为 `Container → WebService → Route`。
-
----
 
 ## 许可
 
