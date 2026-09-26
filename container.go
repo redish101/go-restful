@@ -77,7 +77,6 @@ func (c *Container) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(ri.status)
 		_ = json.NewEncoder(w).Encode(map[string]any{
 			"error": msg,
-			"code":  ri.status,
 		})
 	}
 }
@@ -137,7 +136,7 @@ func (c *Container) wrap(route *Route) http.HandlerFunc {
 			if ct == "" || !acceptsMIME(ct, consumes) {
 				w.Header().Set("Content-Type", MIME_JSON+"; charset=utf-8")
 				w.WriteHeader(http.StatusUnsupportedMediaType)
-				_, _ = w.Write([]byte(`{"error":"unsupported media type","code":415}`))
+				_, _ = w.Write([]byte(`{"error":"unsupported media type"}`))
 				return
 			}
 		}
@@ -147,7 +146,7 @@ func (c *Container) wrap(route *Route) http.HandlerFunc {
 			if chosen == "" {
 				w.Header().Set("Content-Type", MIME_JSON+"; charset=utf-8")
 				w.WriteHeader(http.StatusNotAcceptable)
-				_, _ = w.Write([]byte(`{"error":"not acceptable","code":406}`))
+				_, _ = w.Write([]byte(`{"error":"not acceptable"}`))
 				return
 			}
 			w.Header().Set("Content-Type", chosen+"; charset=utf-8")
